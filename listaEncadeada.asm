@@ -12,15 +12,15 @@
 msg_inserir_value: 		.string  "\t 1 - Inserir valor na lista \n"
 msg_remover_value: 		.string  "\t 2 - Remover valor \n"
 msg_remover_index:		.string  "\t 3 - Remover por index \n"
-msg_list:			.string  "\t 4 - Listar os valores \n"
-msg_exit: 			.string  "\t 5 - Sair do programa \n"
-msg_dig:			.string  "\tDigite o item a ser inserido na lista: "
-espaco:				.string "\t "
+msg_list:				.string  "\t 4 - Listar os valores \n"
+msg_exit: 				.string  "\t 5 - Sair do programa \n"
+msg_dig:				.string  "\tDigite o item a ser inserido na lista: "
+espaco:					.string "\t "
 		
 		.text
 	
 main: 
-		add  s0, zero, sp  								# iniciar o lista valendo 0 
+		add  s0, zero, sp  							# iniciar o lista valendo 0 
 		addi a1, zero, 1
 		addi a2, zero, 2
 		addi a3, zero, 3
@@ -31,7 +31,7 @@ main:
 	
 		j chamar_menu	
 	
-chamar_menu:	 										# faz a chamada do menu com seus respectivos items	
+chamar_menu:	 								   # faz a chamada do menu com seus respectivos items	
 		la a0, msg_inserir_value 
 		li a7, 4
 		ecall
@@ -60,20 +60,20 @@ chamar_menu:	 										# faz a chamada do menu com seus respectivos items
 		beq a3, a0, remover_index
 		beq a4, a0, listar_items
 			
-# INSER??O DE DADOS#		
+# INSERIR DE DADOS#		
 
 inserir_valor:
-		la a0, msg_dig                         				 # exibe mensagem para receber valor do usuario
+		la a0, msg_dig                         	# exibe mensagem para receber valor do usuario
 		li a7 4
 		ecall
 		
-		li a7, 5				 			# le o valor inteiro digitado
+		li a7, 5				 				# le o valor inteiro digitado
 		ecall
 											
 		addi s1, s1, 1				 			 # incrementa o contador
-		beq  s0, sp, primeiro_item               			 # verifica se o valor e seu respectivo sp tem o tamanho se sim insere o primeiro elemento
+		beq  s0, sp, primeiro_item               # verifica se o valor e seu respectivo sp tem o tamanho se sim insere o primeiro elemento
 		lw   t0, 0(s0)							 # registrador temporario recebe s0 na posi??o 0
-		blt  a0, t0, inserir_primeira_posicao	 			 # compara se o valor digitado e menor que a primeira posi??o e coloca no atual
+		blt  a0, t0, inserir_primeira_posicao	 # compara se o valor digitado e menor que a primeira posi??o e coloca no atual
 		add  t0, zero, s0						 # colocar a pilha no registrador temporario
 		j inserir_atras
 
@@ -92,8 +92,8 @@ inserir_primeira_posicao:
 		j chamar_menu
 
 inserir_atras:
-		lw   t1, -4(t0)
-		beqz t1, link
+		lw   t1, -4(t0)    						# tras o valor do proximo elemento da lista e coloca no registrador temporario t1
+		beqz t1, link                           # compara de o valor e igual zero faz desvio 
 		lw   t2, -0(t1)
 		blt  a0, t2, link
 		add  t0, zero, t1
@@ -108,13 +108,13 @@ link:
 		j chamar_menu
 
 
-# REMO??O DE DADOS #
+# REMOCAO DE DADOS 
 		
 remover_valor:
 
 remover_index:
 
-# LISTAGEM DE DADOS #
+# LISTAGEM DE DADOS 
 
 listar_items:
 		# comecei aqui mais n ta funfando resolvam KKKK
