@@ -9,29 +9,30 @@
     .data
     
 
-msg_inserir_value: 			.string  "\t 1 - Inserir valor na lista \n"
-msg_remover_value: 			.string  "\t 2 - Remover valor \n"
-msg_remover_index:			.string  "\t 3 - Remover por index \n"
-msg_list:				.string  "\t 4 - Listar os valores \n"
-msg_exit: 				.string  "\t 5 - Sair do programa \n"
-msg_dig:				.string  "\tDigite o item a ser inserido na lista: "
-espaco:					.string "\t "
-		
+msg_inserir_value: 		.string  "\t 1 - Inserir valor na lista \n"
+msg_remover_value: 		.string  "\t 2 - Remover valor \n"
+msg_remover_index:		.string  "\t 3 - Remover por index \n"
+msg_list:			.string  "\t 4 - Listar os valores \n"
+msg_exit: 			.string  "\t 5 - Sair do programa \n"
+msg_dig:			.string  "\tDigite o item a ser inserido na lista: "
+espaco:				.string "\t "
+saiu:				.string "SSAIIIIUUUUU"
 		.text
 	
 main: 
-		add  s0, zero, sp  								# iniciar o lista valendo 0 
+		add  s0, zero, sp  							# iniciar o lista valendo 0 
 		addi a1, zero, 1
 		addi a2, zero, 2
 		addi a3, zero, 3
 		addi a4, zero, 4
+		addi a5, zero, 5
 	
-		li s1, 0 									# Contador de items adicionados a lista
-		li s2, 0									# Contador de items retirados
+		li s1, 0 								# Contador de items adicionados a lista
+		li s2, 0								# Contador de items retirados
 	
 		j chamar_menu	
 	
-chamar_menu:	 								   		# faz a chamada do menu com seus respectivos items	
+chamar_menu:	 								  	# faz a chamada do menu com seus respectivos items	
 		la a0, msg_inserir_value 
 		li a7, 4
 		ecall
@@ -59,6 +60,7 @@ chamar_menu:	 								   		# faz a chamada do menu com seus respectivos items
 		beq a2, a0, remover_valor
 		beq a3, a0, remover_index
 		beq a4, a0, listar_items
+		beq a5, a0, exit
 			
 # INSERIR DE DADOS#		
 
@@ -73,7 +75,7 @@ inserir_valor:
 		addi s1, s1, 1				 			 	# incrementa o contador
 		beq  s0, sp, primeiro_item               				# verifica se o valor e seu respectivo sp tem o tamanho se sim insere o primeiro elemento
 		lw   t0, 0(s0)							 	# registrador temporario recebe s0 na posi??o 0
-		blt  a0, t0, inserir_primeira_posicao					# compara se o valor digitado e menor que a primeira posi??o e coloca no atual
+		blt  a0, t0, inserir_primeira_posicao	 				# compara se o valor digitado e menor que a primeira posi??o e coloca no atual
 		add  t0, zero, s0						 	# colocar a pilha no registrador temporario
 		j inserir_atras
 
@@ -136,4 +138,7 @@ listar_items:
 # FINALIZAR PROGRAMA #
 
 exit: 
+	la a0, saiu
+	li a7, 4
+	ecall
 		
