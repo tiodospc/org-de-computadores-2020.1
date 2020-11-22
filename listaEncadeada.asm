@@ -1,3 +1,4 @@
+
 # # # # # # # # # # # # # # # # # # # # # # # # #
 #  Organiza??o de computadores 2020.1 - UFFS    #
 #  Thiago Henrique Ferreira Correa - 1711100014 #
@@ -160,6 +161,29 @@ _restaura_pilha:
 
 remover_index:
 
+_remover_index_inicio:
+	beq s0, sp, chamar_menu
+	add t0, zero, s0
+	bne t1, a0, _remover_index_loop
+	lw t2, -4(t0)
+	add s0, zero, t2
+	beqz s0, _restaura_pilha
+	j chamar_menu
+	
+_remover_index_loop:
+	lw t2, -4(t0)				  
+	beqz t2, chamar_menu
+	addi t1, t1, 1
+	bne t1, a0, _procura_no_index
+	
+	lw t3, -4(t2)
+	sw t3, -4(t0)
+	j _remover_index_loop
+
+_procura_no_index:
+	add t0, zero, t2
+	j _remover_index_loop
+
 # LISTAGEM DE DADOS 
 
 add_list:
@@ -196,3 +220,5 @@ exit:
 	la a0, saiu
 	li a7, 4
 	ecall
+
+
