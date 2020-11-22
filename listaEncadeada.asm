@@ -1,6 +1,6 @@
 
 # # # # # # # # # # # # # # # # # # # # # # # # #
-#  Organiza??o de computadores 2020.1 - UFFS    #
+#  Organizacao de computadores 2020.1 - UFFS    #
 #  Thiago Henrique Ferreira Correa - 1711100014 #
 #  Debora Rebelatto  - 1721101034               #
 # # # # # # # # # # # # # # # # # # # # # # # # # 
@@ -120,80 +120,76 @@ link:
 # REMOCAO DE DADOS 
 		
 remover_valor:
-	addi s2, s2, 1
+		addi s2, s2, 1
 	
-	la a0, remover_item                      				# exibe mensagem para receber valor do usuario
-	li a7 4
-	ecall
+		la a0, remover_item                      				# exibe mensagem para receber valor do usuario
+		li a7 4
+		ecall
 	
-	li a7, 5				 				# le o valor inteiro digitado
-	ecall
+		li a7, 5				 				# le o valor inteiro digitado
+		ecall
 	
 _remove_valor_inicio:
-	beq  s0 , sp ,chamar_menu
-	add t0, zero, s0
-	lw t1, 0 (t0)
-	bne  t1 , a0 , _remove_valor_loop
-	lw t3, -4 (t0)
-	add s0, zero, t3
-	beqz s0, _restaura_pilha
-	j _remove_valor_inicio
+		beq  s0 , sp ,chamar_menu
+		add t0, zero, s0
+		lw t1, 0 (t0)
+		bne  t1 , a0 , _remove_valor_loop
+		lw t3, -4 (t0)
+		add s0, zero, t3
+		beqz s0, _restaura_pilha
+		j _remove_valor_inicio
 	
 _remove_valor_loop:
-	lw t1, -4 (t0) 
-	beqz t1, chamar_menu
+		lw t1, -4 (t0) 
+		beqz t1, chamar_menu
 	
-	lw t2, 0 (t1)
+		lw t2, 0 (t1)
 	
-	bne  t2 ,   a0 ,_procura_proximo_valor   
-	lw t3, -4 (t1)
-	sw t3, -4 (t0)
-	j _remove_valor_loop
+		bne  t2 ,   a0 ,_procura_proximo_valor   
+		lw t3, -4 (t1)
+		sw t3, -4 (t0)
+		j _remove_valor_loop
 	
 _procura_proximo_valor:
-	add t0, zero, t1
-	j _remove_valor_loop
+		add t0, zero, t1
+		j _remove_valor_loop
 
 _restaura_pilha:
-	add s0, zero, sp
-	j chamar_menu
+		add s0, zero, sp
+		j chamar_menu
 
 
 remover_index:
-
 _remover_index_inicio:
-	beq s0, sp, chamar_menu
-	add t0, zero, s0
-	bne t1, a0, _remover_index_loop
-	lw t2, -4(t0)
-	add s0, zero, t2
-	beqz s0, _restaura_pilha
-	j chamar_menu
+		beq s0, sp, chamar_menu
+		add t0, zero, s0
+		bne t1, a0, _remover_index_loop
+		lw t2, -4(t0)
+		add s0, zero, t2
+		beqz s0, _restaura_pilha
+		j chamar_menu
 	
 _remover_index_loop:
-	lw t2, -4(t0)				  
-	beqz t2, chamar_menu
-	addi t1, t1, 1
-	bne t1, a0, _procura_no_index
+		lw t2, -4(t0)				  
+		beqz t2, chamar_menu
+		addi t1, t1, 1
+		bne t1, a0, _procura_no_index
 	
-	lw t3, -4(t2)
-	sw t3, -4(t0)
-	j _remover_index_loop
+		lw t3, -4(t2)
+		sw t3, -4(t0)
+		j _remover_index_loop
 
 _procura_no_index:
-	add t0, zero, t2
-	j _remover_index_loop
+		add t0, zero, t2
+		j _remover_index_loop
 
 # LISTAGEM DE DADOS 
 
 add_list:
 	add, t0, zero, s0
 
-
 listar_items:
 		# comecei aqui mais n ta funfando resolvam KKKK
-		
-		#addi a0, s0,
 		
 		beqz t0, chamar_menu
 		
