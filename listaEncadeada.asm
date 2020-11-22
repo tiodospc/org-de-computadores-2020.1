@@ -14,8 +14,10 @@ msg_remover_value: 		.string  "\t 2 - Remover valor \n"
 msg_remover_index:		.string  "\t 3 - Remover por index \n"
 msg_list:			.string  "\t 4 - Listar os valores \n"
 msg_exit: 			.string  "\t 5 - Sair do programa \n"
-msg_dig:			.string  "\tDigite o item a ser inserido na lista: "
-espaco:				.string "\t "
+msg_dig:			.string  "\t Digite o item a ser inserido na lista: "
+remover_item:			.string  "\t Digite o valor que deseja remover: "
+espaco:				.string  "\t "
+quebrar_linha:			.string  "\n"
 saiu:				.string "SSAIIIIUUUUU"
 		.text
 	
@@ -33,6 +35,10 @@ main:
 		j chamar_menu	
 	
 chamar_menu:	 								  	# faz a chamada do menu com seus respectivos items	
+		la, a0, quebrar_linha
+		li a7, 4
+		ecall
+		
 		la a0, msg_inserir_value 
 		li a7, 4
 		ecall
@@ -114,6 +120,11 @@ link:
 		
 remover_valor:
 	addi s2, s2, 1
+	
+	la a0, remover_item                      				# exibe mensagem para receber valor do usuario
+	li a7 4
+	ecall
+	
 	li a7, 5				 				# le o valor inteiro digitado
 	ecall
 	
@@ -151,23 +162,34 @@ remover_index:
 
 # LISTAGEM DE DADOS 
 
+add_list:
+	add, t0, zero, s0
+
+
 listar_items:
 		# comecei aqui mais n ta funfando resolvam KKKK
 		
-		addi a0, s0, 0
-	##	li a7, 4
-	##	ecall
+		#addi a0, s0,
 		
-		lw t0, 0(a0)
-		add a0, zero, t0
+		beqz t0, chamar_menu
+		
+		lw a0, 0(t0)
+		
 		li a7, 1
-		ecall    
-		la a0, espaco
+		ecall
+		
+		la  a0, espaco
 		li a7, 4
 		ecall
+	
+		lw t0, -4(t0)
+				
+		bge t0, sp listar_items
 		
 		j chamar_menu
 
+
+		
 # FINALIZAR PROGRAMA #
 
 exit: 
