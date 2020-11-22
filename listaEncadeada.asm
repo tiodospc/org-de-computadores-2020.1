@@ -113,6 +113,39 @@ link:
 # REMOCAO DE DADOS 
 		
 remover_valor:
+	addi s2, s2, 1
+	li a7, 5				 				# le o valor inteiro digitado
+	ecall
+	
+_remove_valor_inicio:
+	beq  s0 , sp ,chamar_menu
+	add t0, zero, s0
+	lw t1, 0 (t0)
+	bne  t1 , a0 , _remove_valor_loop
+	lw t3, -4 (t0)
+	add s0, zero, t3
+	beqz s0, _restaura_pilha
+	j _remove_valor_inicio
+	
+_remove_valor_loop:
+	lw t1, -4 (t0) 
+	beqz t1, chamar_menu
+	
+	lw t2, 0 (t1)
+	
+	bne  t2 ,   a0 ,_procura_proximo_valor   
+	lw t3, -4 (t1)
+	sw t3, -4 (t0)
+	j _remove_valor_loop
+	
+_procura_proximo_valor:
+	add t0, zero, t1
+	j _remove_valor_loop
+
+_restaura_pilha:
+	add s0, zero, sp
+	j chamar_menu
+
 
 remover_index:
 
@@ -122,18 +155,18 @@ listar_items:
 		# comecei aqui mais n ta funfando resolvam KKKK
 		
 		addi a0, s0, 0
+	##	li a7, 4
+	##	ecall
+		
+		lw t0, 0(a0)
+		add a0, zero, t0
+		li a7, 1
+		ecall    
+		la a0, espaco
 		li a7, 4
 		ecall
 		
-		la a0, espaco
-		li a7 4
-		ecall
-		
-		lw a0, 0(t1)
-		lw t1, -4(t1)
-		
-		li a7, 1
-		ecall
+		j chamar_menu
 
 # FINALIZAR PROGRAMA #
 
@@ -141,4 +174,3 @@ exit:
 	la a0, saiu
 	li a7, 4
 	ecall
-		
